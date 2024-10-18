@@ -1,8 +1,8 @@
-"""create Guest,Reservation,rooms tables
+"""create tables
 
-Revision ID: 836e17e68513
+Revision ID: 5abd61ef24f3
 Revises: 
-Create Date: 2024-10-17 22:26:03.018000
+Create Date: 2024-10-18 13:43:23.257673
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '836e17e68513'
+revision = '5abd61ef24f3'
 down_revision = None
 branch_labels = None
 depends_on = None
