@@ -51,7 +51,9 @@ class Rooms(db.Model, SerializerMixin):
     price_per_night = db.Column(db.Numeric, nullable=False)
     status = db.Column(db.String, nullable=False)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())    
-
+    image = db.Column(db.String,nullable=False)
+    
+    
     # add Relationships
     reservations = db.relationship('Reservation', back_populates='rooms')
 
