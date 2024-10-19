@@ -1,7 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import validates
 from sqlalchemy_serializer import SerializerMixin
-
+from datetime import datetime
+import re
 db = SQLAlchemy()
 
 class Guest(db.Model, SerializerMixin):
@@ -10,7 +11,7 @@ class Guest(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), nullable=False, unique=True)
-    phone = db.Column(db.Integer, nullable=False, unique=True)
+    phone = db.Column(db.String, nullable=False, unique=True)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     
     # add Relationship
@@ -29,7 +30,7 @@ class Guest(db.Model, SerializerMixin):
     
     @validates('phone')
     def validate_phone(self, key, phone):
-        if len(str(phone)) != 12:
+        if len(phone) < 12:
             raise ValueError('Phone number must be 12 digits')
         
         phone_regex = r'^\+\d{12}$'
@@ -51,7 +52,9 @@ class Rooms(db.Model, SerializerMixin):
     price_per_night = db.Column(db.Numeric, nullable=False)
     status = db.Column(db.String, nullable=False)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())    
-
+    image = db.Column(db.String,nullable=False)
+    
+    
     # add Relationships
     reservations = db.relationship('Reservation', back_populates='rooms')
 
@@ -92,7 +95,8 @@ class Reservation(db.Model, SerializerMixin):
     # add Validations
     @validates('check_in_date', 'check_out_date')
     def validate_dates(self, key, date):
-        if date < db.func.current_timestamp():
+        current_time = datetime.now()
+        if date < current_time:
             raise ValueError(f'{key.capitalize()} date cannot be in the past')
         return date
 

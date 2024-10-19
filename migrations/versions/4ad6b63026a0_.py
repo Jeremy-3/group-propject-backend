@@ -1,8 +1,8 @@
-"""create Guest,Reservation,rooms tables
+"""empty message
 
-Revision ID: 836e17e68513
+Revision ID: 4ad6b63026a0
 Revises: 
-Create Date: 2024-10-17 22:26:03.018000
+Create Date: 2024-10-19 11:42:35.494762
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '836e17e68513'
+revision = '4ad6b63026a0'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -22,7 +22,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=50), nullable=False),
     sa.Column('email', sa.String(length=50), nullable=False),
-    sa.Column('phone', sa.Integer(), nullable=False),
+    sa.Column('phone', sa.String(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
@@ -35,6 +35,7 @@ def upgrade():
     sa.Column('price_per_night', sa.Numeric(), nullable=False),
     sa.Column('status', sa.String(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('image', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('room_number')
     )
