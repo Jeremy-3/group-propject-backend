@@ -11,38 +11,57 @@ def seed_data():
         db.session.commit()
 
         # Seed guests
-        guest1 = Guest(name='Alice Kimani', email='alice@example.com', phone='+123456789012')
-        guest2 = Guest(name='Bob Otieno', email='bob@example.com', phone='+123456789013')
-        guest3 = Guest(name='Cynthia Mwangi', email='cynthia@example.com', phone='+123456789014')
-
-        db.session.add_all([guest1, guest2, guest3])
+        guests = [
+            Guest(name='Alice Kimani', email='alice@example.com', phone='+123456789012'),
+            Guest(name='Bob Otieno', email='bob@example.com', phone='+123456789013'),
+            Guest(name='Cynthia Mwangi', email='cynthia@example.com', phone='+123456789014'),
+            Guest(name='Daniel Njoroge', email='daniel@example.com', phone='+123456789015'),
+            Guest(name='Eve Wanjiku', email='eve@example.com', phone='+123456789016'),
+            Guest(name='Frank Karanja', email='frank@example.com', phone='+123456789017'),
+            Guest(name='Grace Muthoni', email='grace@example.com', phone='+123456789018'),
+            Guest(name='Hassan Ahmed', email='hassan@example.com', phone='+123456789019'),
+            Guest(name='Ivy Odhiambo', email='ivy@example.com', phone='+123456789020'),
+            Guest(name='Jack Ochieng', email='jack@example.com', phone='+123456789021')
+        ]
+        db.session.add_all(guests)
         db.session.commit()
 
         # Seed rooms with images
-        room1 = Rooms(room_number=101, room_type='single', price_per_night=50, status='available', image='/static/images/room1.jpg')
-        room2 = Rooms(room_number=102, room_type='double', price_per_night=75, status='available', image='/static/images/room2.jpg')
-        room3 = Rooms(room_number=103, room_type='suite', price_per_night=150, status='occupied', image='/static/images/room3.jpg')
-
-        db.session.add_all([room1, room2, room3])
+        rooms = [
+            Rooms(room_number=101, room_type='single', price_per_night=50, status='available', image='/https://images.unsplash.com/photo-1685592437742-3b56edb46b15?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+            Rooms(room_number=102, room_type='double', price_per_night=75, status='available', image='https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+            Rooms(room_number=103, room_type='suite', price_per_night=150, status='occupied', image='https://images.unsplash.com/photo-1644057501622-dfa7dd26dbfb?q=80&w=1381&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+            Rooms(room_number=104, room_type='single', price_per_night=55, status='available', image='https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fGhvdGVsJTIwcm9vbXN8ZW58MHx8MHx8fDA%3D'),
+            Rooms(room_number=105, room_type='double', price_per_night=80, status='available', image='https://plus.unsplash.com/premium_photo-1684445035187-c4bc7c96bc5d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTN8fGhvdGVsJTIwcm9vbXN8ZW58MHx8MHx8fDA%3D')
+        ]
+        db.session.add_all(rooms)
         db.session.commit()
 
         # Seed reservations
-        reservation1 = Reservation(
-            check_in_date=datetime.now() + timedelta(days=5),
-            check_out_date=datetime.now() + timedelta(days=10),
-            total_price=200,
-            guest_id=guest1.id,
-            room_id=room1.id
-        )
-        reservation2 = Reservation(
-            check_in_date=datetime.now() + timedelta(days=6),
-            check_out_date=datetime.now() + timedelta(days=11),
-            total_price=300,
-            guest_id=guest2.id,
-            room_id=room2.id
-        )
-
-        db.session.add_all([reservation1, reservation2])
+        reservations = [
+            Reservation(
+                check_in_date=datetime.now() + timedelta(days=5),
+                check_out_date=datetime.now() + timedelta(days=10),
+                total_price=200,
+                guest_id=guests[0].id,
+                room_id=rooms[0].id
+            ),
+            Reservation(
+                check_in_date=datetime.now() + timedelta(days=6),
+                check_out_date=datetime.now() + timedelta(days=11),
+                total_price=300,
+                guest_id=guests[1].id,
+                room_id=rooms[1].id
+            ),
+            Reservation(
+                check_in_date=datetime.now() + timedelta(days=7),
+                check_out_date=datetime.now() + timedelta(days=12),
+                total_price=400,
+                guest_id=guests[2].id,
+                room_id=rooms[2].id
+            )
+        ]
+        db.session.add_all(reservations)
         db.session.commit()
 
 seed_data()
