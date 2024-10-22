@@ -1,8 +1,8 @@
-"""creating all tables
+"""restore tables
 
-Revision ID: 58f40553e1b3
+Revision ID: 8d6af3be894a
 Revises: 
-Create Date: 2024-10-22 10:21:48.565634
+Create Date: 2024-10-22 20:10:00.672420
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '58f40553e1b3'
+revision = '8d6af3be894a'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -32,7 +32,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('room_number', sa.Integer(), nullable=False),
     sa.Column('room_type', sa.String(), nullable=False),
-    sa.Column('price_per_night', sa.Numeric(), nullable=False),
+    sa.Column('price_per_night', sa.Integer(), nullable=False),
     sa.Column('status', sa.String(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('image', sa.String(), nullable=False),
@@ -52,7 +52,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('check_in_date', sa.DateTime(), nullable=False),
     sa.Column('check_out_date', sa.DateTime(), nullable=False),
-    sa.Column('total_price', sa.Numeric(), nullable=False),
+    sa.Column('total_price', sa.Integer(), nullable=False),
     sa.Column('guest_id', sa.Integer(), nullable=False),
     sa.Column('room_id', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),

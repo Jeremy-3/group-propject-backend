@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from flask import Flask, request, make_response, jsonify
 from werkzeug.security import check_password_hash
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask_cors import CORS
 import os
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -14,7 +15,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = os.environ.get("JWT_SECRET_KEY", "super-secret-key")
-
+CORS(app)
 # Initialize JWT
 jwt = JWTManager(app)
 
@@ -30,19 +31,19 @@ def index():
 
 # User Registration (Admin only)
 @app.route('/register', methods=['POST'])
-@jwt_required()
+# @jwt_required()
 def register_user():
-    current_user = get_jwt_identity()
-    user = User.query.filter_by(username=current_user).first()
+    # current_user = get_jwt_identity()
+    # user = User.query.filter_by(username=current_user).first()
     
     # Check if current user is an admin
-    if user.role != 'admin':
-        return jsonify({"error": "Only admins can register new users"}), 403
+    # if user.role != 'admin':
+    #     return jsonify({"error": "Only admins can register new users"}), 403
 
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
-    role = data.get('role')
+    role = data.get('role','user')
 
     if not username or not password or not role:
         return jsonify({"error": "Missing data"}), 400
@@ -93,6 +94,7 @@ def get_guest(id):
 @jwt_required()
 def create_guest():
     data = request.get_json()
+    # print("getting data...",data)
     try:
         new_guest = Guest(
             name=data['name'],
@@ -103,6 +105,7 @@ def create_guest():
         db.session.commit()
         return make_response(jsonify(new_guest.to_dict()), 201)
     except Exception as e:
+        # print("Getting error",str(e))
         return jsonify({'error': str(e)}), 400
 
 @app.route('/guests/<int:id>', methods=['PATCH'], endpoint='update_guest')
@@ -141,6 +144,10 @@ def delete_guest(id):
 
 # CRUD for Rooms
 @app.route('/rooms', methods=['GET'])
+@jwt_required()
+def get_all():
+    rooms = Rooms.query.all()
+    return jsonify([room.to_dict() for room in rooms])
 @jwt_required()
 def get_rooms():
     rooms = Rooms.query.all()
@@ -188,6 +195,7 @@ def delete_room(id):
 def get_reservations():
     reservations = Reservation.query.all()
     response_data = [reservation.to_dict() for reservation in reservations]
+    print(response_data)
     return make_response(jsonify(response_data), 200)
 
 @app.route('/reservations/<int:id>', methods=['GET'])
@@ -202,6 +210,7 @@ def get_reservation(id):
 @jwt_required()
 def create_reservation():
     data = request.get_json()
+    # print("Incoming data..",data)
     try:
         new_reservation = Reservation(
             check_in_date=data['check_in_date'],
@@ -214,6 +223,7 @@ def create_reservation():
         db.session.commit()
         return make_response(jsonify(new_reservation.to_dict()), 201)
     except Exception as e:
+        # print("Here is the Error",str(e))
         return jsonify({'error': str(e)}), 400
 
 @app.route('/reservations/<int:id>', methods=['DELETE'])
