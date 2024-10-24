@@ -51,8 +51,7 @@ git clone https://github.com/Jeremy-3/group-propject-backend.git
 It’s recommended to use a virtual environment for your project dependencies:
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+pipenv install && pipenv shell
 ```
 3. **Install Dependencies**
 Install all the required Python packages listed in the requirements.txt file:
